@@ -4,7 +4,7 @@ Projeto de estudo inspirado no fluxo do [curso.dev](https://curso.dev), usado pa
 
 ## Estado
 
-**Scaffold inicial.** A branch principal contém uma página Next.js simples e arquivos reservados para banco, conteúdo, usuário e senha. Os módulos de domínio ainda estão vazios, não existe API implementada e não há testes versionados.
+**Scaffold inicial.** A branch principal auditada contém uma página Next.js simples e arquivos reservados para banco, conteúdo, usuário e senha. Os módulos de domínio ainda estão vazios. A evolução local com `GET /api/v1/status` e seu primeiro teste foi publicada separadamente no [PR #14](https://github.com/jotavsevla/clone-tabnews/pull/14).
 
 O README descreve somente o que está verificável no código atual; “clone do TabNews” é a direção do estudo, não uma funcionalidade pronta.
 
@@ -39,8 +39,8 @@ Acesse `http://localhost:3000`.
 
 ## Auditoria técnica
 
-- `package.json` declara a chave `test` duas vezes. JSON aceita apenas um valor efetivo; o último (`jest`) sobrescreve silenciosamente o script de erro criado pelo `npm init`.
-- `npm test` encontra zero testes e termina com erro. Crie o primeiro teste antes de considerar CI funcional.
+- a auditoria encontrou uma chave `test` duplicada no `package.json`; o [PR #14](https://github.com/jotavsevla/clone-tabnews/pull/14) remove a duplicidade;
+- o mesmo PR adiciona o primeiro teste de integração, que pressupõe um servidor em `localhost:3000`;
 - não há script `build` no `package.json`; `npx next build` foi executado diretamente e concluiu com sucesso na auditoria.
 - não há alocação manual nem estrutura dinâmica própria. A memória é gerenciada pelo runtime, mas futuras conexões de banco precisarão de pool singleton e encerramento/liberação explícitos.
 - não há `.env.example`, migration, schema, validação de entrada ou política de autenticação implementados.
@@ -48,8 +48,8 @@ Acesse `http://localhost:3000`.
 
 ## Roadmap sugerido
 
-1. remover a chave duplicada de `scripts`;
-2. adicionar teste mínimo e CI;
+1. mesclar e evoluir o endpoint/teste do PR #14;
+2. adicionar CI que suba o servidor antes dos testes de integração;
 3. definir banco, migrations e variáveis de ambiente;
 4. implementar modelos com contratos e validação;
 5. criar API de status antes dos recursos de conteúdo/usuário;
